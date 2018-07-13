@@ -1,0 +1,16 @@
+<html>
+    <h1>Welcome to the Gemini: Employee Recognition Portal</h1>
+		<p>Sample first name pulled from db: </p>
+		<table>
+		<thead>
+            <th>First Name</th>
+            </thead>
+                <tbody>
+                  {{#each users}}
+                    <tr>
+                        <td>{{first_name}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+		</table>
+</html>
