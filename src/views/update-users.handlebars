@@ -1,0 +1,10 @@
+<h1>Update User {{users.user_id}}:</h1>
+<form id="update-users" action="/users" method="put">
+    First name: <input type="text" name="first_name" value="{{users.first_name}}"><br>
+	Last name: <input type="text" name="last_name" value="{{users.last_name}}"><br>
+    Username: <input type="text" name="username" value="{{users.username}}"><br>
+    Password: <input type="text" name="password" value="{{users.password}}"><br>
+    Signature: <input type="text" name="signature" value="{{users.signature}}"><br>
+    Type: <input type="text" name="type" value="{{users.type}}"><br>
+</form>
+<button onclick="updateUsers({{users.user_id}})">Update</button>

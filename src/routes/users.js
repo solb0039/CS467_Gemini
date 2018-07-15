@@ -16,17 +16,38 @@ module.exports = function () {
         });
     }
 
+    // Get a user by ID to modify
+    function getUserID(res, mysql, context, id, complete){
+        mysql.pool.query("SELECT * FROM users WHERE user_id = ?", id, (error, results, fields) => {
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.users  = results[0];
+            complete();
+        });
+    }
+
     // GET - display current users
     router.get('/', (req,res) => {
         var context = {};
-        context.jsscripts = ["deleteUsers.js"];
         var mysql = req.app.get('mysql');
         var handlebars_file = 'users'
-
-        getUsers(res, mysql, context, complete);
-        function complete(){
+        context.jsscripts = ["deleteUsers.js", "updateUsers.js"];
+        getUsers(res, mysql, context, ()=> {
             res.render(handlebars_file, context);
-        }
+        });
+    });
+
+     // GET - display a user for the purpose of updating
+     router.get('/:id', (req,res) => {
+        var context = {};
+        var mysql = req.app.get('mysql');
+        var handlebars_file = 'update-users'
+        context.jsscripts = ["updateUsers.js"];
+        getUserID(res, mysql, context, req.params.id, ()=> {
+            res.render(handlebars_file, context);
+        });
     });
 
     // POST - Add a new user
@@ -47,30 +68,30 @@ module.exports = function () {
     });
 
     // PUT - Modify the specified user
-    router.put('/:id', function(req, res){
+    router.put('/:id', (req, res) => {
+        console.log(req.params.id);
         var mysql = req.app.get('mysql');
         var sql = "UPDATE users SET first_name=?, last_name=?, username=?, password=?, signature=?, type=? WHERE user_id=?";
         var inserts = [req.body.first_name, req.body.last_name, req.body.username, req.body.password, req.body.signature, req.body.type, req.params.id];
-		console.log(inserts);
-        sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+        sql = mysql.pool.query(sql,inserts,(error, results, fields) => {
             if(error){
                 console.log(error);
                 res.write(JSON.stringify(error));
                 res.end();
             }else{
-                res.status(200);
-                res.end();
+                res.redirect(303, '/users');
             }
         });
     });
 
     // DELETE - Delete the specified user
-    router.delete('/:id', function(req, res){
+    router.delete('/:id', (req, res) => {
+        console.log("in delete");
         var mysql = req.app.get('mysql');
         var sql = "DELETE FROM users WHERE user_id = ?";
         var inserts = [req.params.id];
 		console.log(inserts);
-        sql = mysql.pool.query(sql, inserts, function(error, results, fields){
+        sql = mysql.pool.query(sql, inserts, (error, results, fields) => {
             if(error){
                 res.write(JSON.stringify(error));
                 res.status(400);

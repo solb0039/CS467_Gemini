@@ -4,7 +4,7 @@ function updateUsers(id){
         type: 'PUT',
         data: $('#update-users').serialize(),
         success: function(result){
-            window.location.replace("./");
+            window.location.replace("/users");
         }
     })
 };
