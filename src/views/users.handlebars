@@ -1,0 +1,52 @@
+<html>
+    <h1>Administrator Portal - Users</h1>
+    <h2>Add a New User</h2>
+    <form id="addUser" action="/users" method="post">
+    <p>First Name</p></div><input type="text" id="first_name" name="first_name"></input>
+    <p>Last Name</p></div><input type="text" id="last_name" name="last_name"></input>
+    <p>Username</p></div><input type="text" id="username" name="username"></input>
+    <p>Password</p></div><input type="text" id="password" name="password"></input>
+    <p>Signature</p></div><input type="text" id="signature" name="signature"></input>
+    <p>Type (admin, regular)</p></div><input type="text" id="type" name="type"></input>
+    <h2>Current Users</h2>
+    <div>
+    <table id="usersTable">
+        <col width="100">
+        <col width="100">
+        <col width="100">
+        <col width="100">
+        <col width="100">
+        <col width="100">
+        <col width="100">
+        <col width="100">
+        <col width="100">
+        <thead>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Time Created</th>
+            <th>Date Created</th>
+            <th>Signature</th>
+            <th>Type</th>
+        </thead>
+        <tbody>
+        {{#each users}}
+        <tr>
+            <td>{{user_id}}</td>
+            <td>{{first_name}}</td>
+            <td>{{last_name}}</td>
+            <td>{{username}}</td>
+            <td>{{password}}</td>
+            <td>{{time}}</td>
+            <td>{{date}}</td>
+            <td>{{signature}}</td>
+            <td>{{type}}</td>
+            <td><button onclick="deleteUsers({{user_id}})">Delete</button></td>
+            <td><button><a href="/routes/users/{{user_id}}/">Modify</a></button></td>
+        </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</html>

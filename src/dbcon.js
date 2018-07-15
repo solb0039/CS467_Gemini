@@ -5,8 +5,8 @@ var pool = mysql.createPool({
     connectionLimit: 10,
     host: 'geminidb467.cke8aoevzjyc.us-east-1.rds.amazonaws.com',
 	port: 3306,
-    user: { username },
-    password: { password },
+    user: 'katlubeckl',
+    password: 'peanutbutter4life',
     database: 'geminidb'
 });
 module.exports.pool = pool;

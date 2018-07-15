@@ -11,7 +11,7 @@ app.engine('handlebars', handlebars.engine);
 app.use('/static', express.static('public'));
 app.set('view engine', 'handlebars');
 app.set('mysql', mysql);
-app.set('port', process.argv[2]);
+app.set('port', process.argv[2] || 8080);
 
 // Use bodyParser as middleware for post
 app.use(bodyParser.json());
@@ -21,31 +21,34 @@ app.use(bodyParser.urlencoded({ extended: false }));
 var jsonParse = bodyParser.json();
 
 // Set up the website pages 
-app.use('/login', require('./login.js'))
-app.use('/public', express.static('public'));
+app.use('/login', require('./routes/login.js'));
+app.use('/admin', require('./routes/admin.js'));
+app.use('/users', require('./routes/users.js'));
+app.use('/analytics', require('./routes/analytics.js'));
+app.use('/public', express.static('public')); 
 
-// app.get and render for each page
-app.get('/', function (req, res) {
+// app.get and render for home page
+app.get('/', (req, res) => {
     res.render('login');
 });
 
 // Set up 404 and 500 errors
-app.use(function (req, res) {
+app.use((req, res) => {
     res.status(404);
     res.render('404');
 });
 
-app.use(function (err, req, res) {
+app.use((err, req, res) => {
     console.error(err.stack);
     res.status(500);
     res.render('500');
 });
 
-process.on('uncaughtException', function (err) {
+process.on('uncaughtException', (err) => {
     console.log(err);
 }); 
 
 // Run
-app.listen(app.get('port'), function () {
+app.listen(app.get('port'), () => {
     console.log('Express started on port ' + app.get('port') + '; press Ctrl-C to terminate.');
 });
