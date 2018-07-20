@@ -25,6 +25,7 @@ app.use('/login', require('./routes/login.js'));
 app.use('/admin', require('./routes/admin.js'));
 app.use('/users', require('./routes/users.js'));
 app.use('/analytics', require('./routes/analytics.js'));
+app.use('/show-analytics', require('./routes/show-analytics.js'));
 app.use('/public', express.static('public')); 
 
 // app.get and render for home page
