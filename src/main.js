@@ -25,11 +25,11 @@ app.use('/login', require('./routes/login.js'));
 app.use('/admin', require('./routes/admin.js'));
 app.use('/users', require('./routes/users.js'));
 app.use('/analytics', require('./routes/analytics.js'));
-app.use('/number-awards', require('./routes/number-awards.js'));
-app.use('/received-awards', require('./routes/received-awards.js'));
-app.use('/type-awards', require('./routes/type-awards.js'));
-app.use('/created-awards', require('./routes/created-awards.js'));
-app.use('/received-type', require('./routes/received-type.js'));
+app.use('/numberAwards', require('./routes/numberAwards.js'));
+app.use('/receivedAwards', require('./routes/receivedAwards.js'));
+app.use('/typeAwards', require('./routes/typeAwards.js'));
+app.use('/createdAwards', require('./routes/createdAwards.js'));
+app.use('/receivedType', require('./routes/receivedType.js'));
 app.use('/public', express.static('public')); 
 
 // app.get and render for home page

@@ -8,10 +8,7 @@ module.exports = function () {
 		console.log("in router");
         var context = {};
         var mysql = req.app.get('mysql');
-        getUserName(res, mysql, context, complete);
-        function complete(){
-			res.render('login', context);
-        }
+		res.render('login');
     });
 
     return router;

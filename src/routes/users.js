@@ -43,7 +43,7 @@ module.exports = function () {
      router.get('/:id', (req,res) => {
         var context = {};
         var mysql = req.app.get('mysql');
-        var handlebars_file = 'update-users'
+        var handlebars_file = 'updateUsers'
         context.jsscripts = ["updateUsers.js"];
         getUserID(res, mysql, context, req.params.id, ()=> {
             res.render(handlebars_file, context);
