@@ -25,7 +25,11 @@ app.use('/login', require('./routes/login.js'));
 app.use('/admin', require('./routes/admin.js'));
 app.use('/users', require('./routes/users.js'));
 app.use('/analytics', require('./routes/analytics.js'));
-app.use('/show-analytics', require('./routes/show-analytics.js'));
+app.use('/number-awards', require('./routes/number-awards.js'));
+app.use('/received-awards', require('./routes/received-awards.js'));
+app.use('/type-awards', require('./routes/type-awards.js'));
+app.use('/created-awards', require('./routes/created-awards.js'));
+app.use('/received-type', require('./routes/received-type.js'));
 app.use('/public', express.static('public')); 
 
 // app.get and render for home page
