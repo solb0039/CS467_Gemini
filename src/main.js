@@ -30,6 +30,7 @@ app.use('/receivedAwards', require('./routes/receivedAwards.js'));
 app.use('/typeAwards', require('./routes/typeAwards.js'));
 app.use('/createdAwards', require('./routes/createdAwards.js'));
 app.use('/receivedType', require('./routes/receivedType.js'));
+app.use('/data', require('./routes/data.js'));
 app.use('/public', express.static('public')); 
 
 // app.get and render for home page
