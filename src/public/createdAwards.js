@@ -5,7 +5,7 @@ google.charts.load("current", { packages: ["corechart", "pie"] });
 google.charts.setOnLoadCallback(drawChart);
 
 function drawChart() {
-
+/*
     console.log("in draw chart");
     $.get('/data/created', (response) =>{
         console.log(response);
@@ -24,7 +24,8 @@ function drawChart() {
         var chart = new google.visualization.PieChart(document.getElementById('createdAwards'));
         chart.draw(data);
     });
-}/*
+    
+}*/
     var test = [['Task', 'Hours per Day'],
     ['Work', 11],
     ['Eat', 2]];
@@ -39,4 +40,4 @@ function drawChart() {
     var chart = new google.visualization.BarChart(document.getElementById('createdAwards'));
     chart.draw(data);
     
-}*/
+}
