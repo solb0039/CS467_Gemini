@@ -1,4 +1,4 @@
-// Routes for analytics data
+// Routes for Google Chart analytics data
 
 module.exports = function () {
     var express = require('express');
@@ -77,8 +77,6 @@ module.exports = function () {
         var context = [];
         var mysql = req.app.get('mysql');
 
-        // Select the users who have created awards  
-
         mysql.pool.query("SELECT awards.first_name, awards.last_name, type FROM awards ORDER BY awards.last_name", (error, results, fields) => {
             if (error) {
                 res.write(JSON.stringify(error));
@@ -90,6 +88,28 @@ module.exports = function () {
                 var nextName = row.first_name + " " + row.last_name;
                 var nextType = row.type;
                 context.push([nextName, nextType]);
+            }
+
+            res.json(context);
+        });
+    });
+
+    // GET how many of which type of awards have been created
+    router.get('/howmany', (req, res) => {
+        var context = [];
+        var mysql = req.app.get('mysql');
+
+        mysql.pool.query("SELECT type, COUNT(*) as count FROM awards GROUP BY type", (error, results, fields) => {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            for (var i = 0; i < results.length; i++) {
+                var row = results[i];
+                console.log(row);
+                var nextType = row.type;
+                var nextCount = row.count;
+                context.push([nextType, nextCount]);
             }
 
             res.json(context);

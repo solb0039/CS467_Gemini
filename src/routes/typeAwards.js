@@ -4,30 +4,15 @@ module.exports = function () {
     var express = require('express');
     var router = express.Router();
 
-    // Select the users who have created awards  
-    function getUsers(res, mysql, context, complete){
-        mysql.pool.query("SELECT type, COUNT(*) FROM awards GROUP BY type", (error, results, fields) => {
-            if(error){
-                res.write(JSON.stringify(error));
-                res.end();
-            }
-            context.users  = results;
-            console.log("in getUsers");
-            console.log(context);
-            complete();
-        });
-    }
-
-    // GET created awards bar chart
+    // GET created awards chart
     router.get('/', (req,res) => {
         var context = {};
+        console.log("in routes");
         var mysql = req.app.get('mysql');
         var handlebars_file = 'typeAwards';
-        //context.jsscripts["typeAwards"];
-        getUsers(res, mysql, context, ()=> {
-            res.render(handlebars_file); //, context);
-        });
+        context.jsscripts = ['typeAwards.js'];
+        res.render(handlebars_file, context);
     });
-
-return router;
+    
+    return router;
 }();
