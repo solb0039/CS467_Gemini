@@ -21,7 +21,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 var jsonParse = bodyParser.json();
 
 // Set up the website pages 
-app.use('/login', require('./routes/login.js'));
 app.use('/admin', require('./routes/admin.js'));
 app.use('/users', require('./routes/users.js'));
 app.use('/analytics', require('./routes/analytics.js'));

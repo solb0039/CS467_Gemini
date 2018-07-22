@@ -5,10 +5,10 @@ module.exports = function () {
     var router = express.Router();
 
     // GET who has created awards 
-    router.get('/created', (req,res) => {
+    router.get('/created', (req, res) => {
         var context = [];
         var mysql = req.app.get('mysql');
-    
+
         mysql.pool.query("SELECT users.first_name, users.last_name, users.user_id FROM users INNER JOIN awards ON users.user_id = awards.user_id GROUP BY users.user_id", (error, results, fields) => {
             if (error) {
                 res.write(JSON.stringify(error));
@@ -27,10 +27,10 @@ module.exports = function () {
     });
 
     // GET who has received awards 
-    router.get('/received', (req,res) => {
+    router.get('/received', (req, res) => {
         var context = [];
         var mysql = req.app.get('mysql');
-    
+
         mysql.pool.query("SELECT awards.first_name, awards.last_name, awards.award_id FROM awards GROUP BY awards.first_name, awards.last_name", (error, results, fields) => {
             if (error) {
                 res.write(JSON.stringify(error));
@@ -49,10 +49,10 @@ module.exports = function () {
     });
 
     // GET number of created awards 
-    router.get('/number', (req,res) => {
+    router.get('/number', (req, res) => {
         var context = [];
         var mysql = req.app.get('mysql');
-    
+
         mysql.pool.query("SELECT users.first_name, users.last_name, users.user_id, COUNT(*) as count FROM users INNER JOIN awards ON users.user_id = awards.user_id GROUP BY users.user_id", (error, results, fields) => {
             if (error) {
                 res.write(JSON.stringify(error));
@@ -72,5 +72,29 @@ module.exports = function () {
     });
 
 
+    // GET which employees have received which type of award 
+    router.get('/type', (req, res) => {
+        var context = [];
+        var mysql = req.app.get('mysql');
+
+        // Select the users who have created awards  
+
+        mysql.pool.query("SELECT awards.first_name, awards.last_name, type FROM awards ORDER BY awards.last_name", (error, results, fields) => {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            for (var i = 0; i < results.length; i++) {
+                var row = results[i];
+                console.log(row);
+                var nextName = row.first_name + " " + row.last_name;
+                var nextType = row.type;
+                context.push([nextName, nextType]);
+            }
+
+            res.json(context);
+        });
+    });
+    
     return router;
 }();
