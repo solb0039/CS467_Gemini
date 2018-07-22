@@ -1,5 +1,4 @@
-// Client side .js for viewing which users created awards
-// The initial view will be a pie chart
+// Client side .js for viewing data
 
 google.charts.load("current", { packages: ["corechart", "pie"] });
 google.charts.setOnLoadCallback(drawChart);

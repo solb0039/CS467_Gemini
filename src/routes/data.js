@@ -26,5 +26,27 @@ module.exports = function () {
         });
     });
 
+    // GET received awards 
+    router.get('/received', (req,res) => {
+        var context = [];
+        var mysql = req.app.get('mysql');
+    
+        mysql.pool.query("SELECT awards.first_name, awards.last_name, awards.award_id FROM awards GROUP BY awards.first_name, awards.last_name", (error, results, fields) => {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+
+            for (var i = 0; i < results.length; i++) {
+                var row = results[i];
+                var nextName = row.first_name + " " + row.last_name;
+                //console.log(nextName)
+                context.push([nextName, 1]);
+            }
+
+            res.json(context);
+        });
+    });
+
     return router;
 }();
