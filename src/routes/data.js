@@ -4,7 +4,7 @@ module.exports = function () {
     var express = require('express');
     var router = express.Router();
 
-    // GET created awards 
+    // GET who has created awards 
     router.get('/created', (req,res) => {
         var context = [];
         var mysql = req.app.get('mysql');
@@ -26,7 +26,7 @@ module.exports = function () {
         });
     });
 
-    // GET received awards 
+    // GET who has received awards 
     router.get('/received', (req,res) => {
         var context = [];
         var mysql = req.app.get('mysql');
@@ -47,6 +47,30 @@ module.exports = function () {
             res.json(context);
         });
     });
+
+    // GET number of created awards 
+    router.get('/number', (req,res) => {
+        var context = [];
+        var mysql = req.app.get('mysql');
+    
+        mysql.pool.query("SELECT users.first_name, users.last_name, users.user_id, COUNT(*) as count FROM users INNER JOIN awards ON users.user_id = awards.user_id GROUP BY users.user_id", (error, results, fields) => {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+
+            for (var i = 0; i < results.length; i++) {
+                var row = results[i];
+                console.log(row);
+                var nextName = row.first_name + " " + row.last_name;
+                var nextCount = row.count;
+                context.push([nextName, nextCount]);
+            }
+
+            res.json(context);
+        });
+    });
+
 
     return router;
 }();
