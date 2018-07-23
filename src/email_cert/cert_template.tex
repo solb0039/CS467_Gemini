@@ -1,0 +1,145 @@
+\documentclass[11pt, oneside]{slides}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+\geometry{landscape, margin = 0.1in}                		% Activate for rotated page geometry
+\headheight = 0.1in
+\voffset = 0.3in
+
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+
+\usepackage{multirow} %for table
+
+\usepackage{graphicx}		% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+\graphicspath{ {./} }
+							% TeX will automatically convert eps --> pdf in pdflatex	
+\usepackage{color}					
+\usepackage{calligra}
+\usepackage[percent]{overpic}
+\usepackage{amssymb}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,decorations.text}
+
+\usepackage{setspace}
+\usepackage{datatool}
+\DTLsetseparator{,}
+
+\usepackage{xcolor}
+\usepackage{pagecolor,lipsum}
+\definecolor{shadecolor}{RGB}{220,220,205}
+
+%\DTLloaddb{awardInfo}{/home/deploy/rtificate/data.csv}
+\DTLloaddb{awardData}{inputData.csv}
+\begin{document}
+
+\DTLforeach{awardData} {
+	\FName=FName, 
+	\LName=LName,
+	\AwFName=AwFName,
+	\AwLName=AwLName,
+	\AwType=AwardType}
+	
+%Color and border%
+\pagecolor{shadecolor}
+\begin{overpic}[abs,unit=1mm,scale=.285,grid]{Border}
+
+%Title%
+\put(50,150){ \begin{Huge} \calligra \AwType \end{Huge}}
+
+\put(100,125){\begin{large}This award recognizes \end{large} }
+
+%Name%
+%TODO add centering%
+%
+%Name
+
+%Old csv file data
+  % name,value
+  % FName,Sean
+  % LName,Solbergdfdfdfdfdfd
+  %AwFName,Bill
+  % AwLName,Johnson
+
+%\put (105,110)
+%{	
+%	\DTLforeach{awardData}{\Name=name,\Value=value}
+%	{%
+%		\cslet{\Name}{\Value}%
+%	}
+%	
+%	\begin{Large}  	
+%		\textbf   \FName  
+%	\end{Large}
+%	\begin{Large}  \textbf  \LName 
+%	\end{Large}
+%}
+
+%\put (105,110)
+
+%Explanation for award
+\put(85,90){ \begin{normalsize}For your outstanding performance \end{normalsize}}
+\put(70,80){ \begin{normalsize}and hardwork to your work and the company.\end{normalsize}}
+
+%Seal Image%
+\put(10,20){\color{white}\frame{\includegraphics[scale=0.5]{seal}}}
+
+%Signature Image%
+\put(145,50){\makebox(0,0){{\color{white}\frame{\includegraphics[scale=0.6]{Signature}}}}}
+
+%\put(119,42){\color{white}\frame{\includegraphics[scale=0.6]{Signature}}}
+
+%Awarded By%
+\put(120,60){\begin{large}Awarded by \end{large}}
+
+%Awarder name%
+\put (145,35){\makebox(0,0){
+\centering
+	\begin{Large}  	
+		\textbf   \AwFName  
+	\end{Large}
+	\begin{Large} 
+		 \textbf  \AwLName 
+	\end{Large}
+}}
+
+
+%\put (118,35)
+%{
+%	\DTLforeach{awardData}{\Name=name,\Value=value}
+%	{%
+% 		\cslet{\Name}{\Value}%
+%	}
+%	\AwFName \
+%	\AwLName
+%}
+
+%Given by%
+\put(95,20){\begin{large}Given on \today \end{large}}
+
+%Date%
+%\begin{minipage}[c]{\textwidth}
+ %   \centering
+ %   \large   
+%    \today \\
+%   \vspace{60mm} 
+%\end{minipage}%
+
+%NAME
+\begin{minipage}[c]{11.5in}
+\centering
+{
+\vspace*{-9.2in}
+	\begin{Large}  	
+		\textbf   \FName  
+	\end{Large}
+	\begin{Large} 
+		 \textbf  \LName 
+	\end{Large}
+}
+\end{minipage}
+
+\end{overpic}
+
+
+
+\end{document}  
