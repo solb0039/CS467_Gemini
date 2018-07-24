@@ -22,13 +22,17 @@ var jsonParse = bodyParser.json();
 
 // Set up the website pages 
 app.use('/admin', require('./routes/admin.js'));
+app.use('/userHome', require('./routes/userHome.js'));
+app.use('/userAccount', require('./routes/userAccount.js'));
 app.use('/users', require('./routes/users.js'));
 app.use('/analytics', require('./routes/analytics.js'));
 app.use('/numberAwards', require('./routes/numberAwards.js'));
 app.use('/receivedAwards', require('./routes/receivedAwards.js'));
 app.use('/typeAwards', require('./routes/typeAwards.js'));
 app.use('/createdAwards', require('./routes/createdAwards.js'));
+app.use('/newAward', require('./routes/newAward.js'));
 app.use('/receivedType', require('./routes/receivedType.js'));
+app.use('/sentType', require('./routes/sentType.js'));
 app.use('/data', require('./routes/data.js'));
 app.use('/public', express.static('public')); 
 
