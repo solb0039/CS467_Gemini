@@ -31,7 +31,7 @@ module.exports = function () {
         var context = [];
         var mysql = req.app.get('mysql');
 
-        mysql.pool.query("SELECT awards.first_name, awards.last_name, awards.award_id FROM awards GROUP BY awards.first_name, awards.last_name", (error, results, fields) => {
+        mysql.pool.query("SELECT awards.user_id, awards.first_name, awards.last_name, awards.award_id, COUNT(awards.user_id) as count FROM awards GROUP BY awards.user_id", (error, results, fields) => {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
@@ -41,7 +41,8 @@ module.exports = function () {
                 var row = results[i];
                 var nextName = row.first_name + " " + row.last_name;
                 //console.log(nextName)
-                context.push([nextName, 1]);
+                var nextCount = row.count;
+                context.push([nextName, nextCount]);
             }
 
             res.json(context);
