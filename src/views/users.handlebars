@@ -1,19 +1,32 @@
 <h1>Administrator Portal - Users</h1>
 <h2>Add a New User</h2>
+<div class="small-space"></div>
+<div class="form-group">
 <form id="addUser" action="/users" method="post">
-    <p>First Name</p>
+    <label for="first_name">First name</label>
     <input type="text" id="first_name" name="first_name"></input>
-    <p>Last Name</p>
+</div>
+<div class="form-group">
+    <label for="last_name">Last name</label>
     <input type="text" id="last_name" name="last_name"></input>
-    <p>Username</p>
+</div>
+<div class="form-group">
+    <label for="username">Username</label>
     <input type="text" id="username" name="username"></input>
-    <p>Password</p>
+</div>
+<div class="form-group">
+    <label for="password">Password</label>
     <input type="text" id="password" name="password"></input>
-    <p>Signature</p>
+</div>
+<div class="form-group">
+    <label for="signature">Signature</label>
     <input type="text" id="signature" name="signature"></input>
-    <p>Type (admin, regular)</p>
+</div>
+<div class="form-group">
+    <label for="type">Type</label>
     <input type="text" id="type" name="type"></input>
-    <input type="submit" value="Submit">
+</div>
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 <div class='vertical-space'></div>
 <h2>Current Users</h2>

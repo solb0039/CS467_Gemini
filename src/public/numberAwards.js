@@ -27,5 +27,9 @@ function drawChart() {
         //create and draw the pie chart from DIV
         var pieChart = new google.visualization.PieChart(document.getElementById('numberAwards2'));
         pieChart.draw(data);
+
+        // Create CSV
+        var csv = google.visualization.dataTableToCsv(data);
+        console.log(csv);
     }, 'json');
 }

@@ -1,4 +1,5 @@
 // Client side .js for viewing data
+// Source: https://stackoverflow.com/questions/17853248/google-visualization-datatable-to-csv-download
 
 google.charts.load("current", { packages: ["corechart", "pie", "table"] });
 google.charts.setOnLoadCallback(drawChart);
@@ -27,7 +28,8 @@ function drawChart() {
         var tableView = new google.visualization.Table(document.getElementById('createdAwards'));
         var options = {
             'height': '400',
-            'width': '500'
+            'width': '500',
+            showRowNumber: true,
           };
 
         tableView.draw(tableChart, options);
@@ -35,5 +37,9 @@ function drawChart() {
         //create and draw the pie chart from DIV
         var pieChart = new google.visualization.PieChart(document.getElementById('createdAwards2'));
         pieChart.draw(data);
+
+        // Create CSV
+        var csv = google.visualization.dataTableToCsv(data);
+        console.log(csv);
     }, 'json');
 }
