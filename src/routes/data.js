@@ -31,7 +31,7 @@ module.exports = function () {
         var context = [];
         var mysql = req.app.get('mysql');
 
-        mysql.pool.query("SELECT awards.user_id, awards.first_name, awards.last_name, awards.award_id, COUNT(awards.user_id) as count FROM awards GROUP BY awards.user_id", (error, results, fields) => {
+        mysql.pool.query("SELECT awards.first_name, awards.last_name, awards.award_id, COUNT(awards.last_name) as count FROM awards GROUP BY awards.last_name, awards.first_name", (error, results, fields) => {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
