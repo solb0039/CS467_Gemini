@@ -55,7 +55,11 @@ module.exports = function () {
         console.log(req.body)
         var mysql = req.app.get('mysql');
         var sql = "INSERT INTO users (first_name, last_name, username, password, date, signature, type) VALUES (?,?,?,?,CURDATE(),?,?)";
-        var inserts = [req.body.first_name, req.body.last_name, req.body.username, req.body.password, req.body.signature, req.body.type];
+        var updated_signature = req.body.signature;
+
+        // convert pdf url to blob
+
+        var inserts = [req.body.first_name, req.body.last_name, req.body.username, req.body.password, updated_signature, req.body.type];
         sql = mysql.pool.query(sql,inserts,(error, results, fields) => {
             if(error){
                 console.log(JSON.stringify(error))
@@ -72,7 +76,11 @@ module.exports = function () {
         console.log(req.params.id);
         var mysql = req.app.get('mysql');
         var sql = "UPDATE users SET first_name=?, last_name=?, username=?, password=?, signature=?, type=? WHERE user_id=?";
-        var inserts = [req.body.first_name, req.body.last_name, req.body.username, req.body.password, req.body.signature, req.body.type, req.params.id];
+        var updated_signature = req.body.signature;
+        
+        // convert pdf url to blob
+
+        var inserts = [req.body.first_name, req.body.last_name, req.body.username, req.body.password, updated_signature, req.body.type, req.params.id];
         sql = mysql.pool.query(sql,inserts,(error, results, fields) => {
             if(error){
                 console.log(error);
