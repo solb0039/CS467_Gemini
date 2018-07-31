@@ -1,3 +1,19 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/admin">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/users">Users</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/analytics">Analytics</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class='small-space'></div>
 <h1>Update User {{users.first_name}} {{users.last_name}}:</h1>
 <div class="small-space"></div>
 <form id="update-users" action="/users" method="put">

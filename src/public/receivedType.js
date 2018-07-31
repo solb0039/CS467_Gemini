@@ -1,5 +1,5 @@
 // Client side .js for viewing data
-google.charts.load("current", { packages: ["table"] });
+google.charts.load("current", { packages: ["corechart", "table"] });
 google.charts.setOnLoadCallback(drawChart);
 
 function drawChart() {
@@ -8,7 +8,6 @@ function drawChart() {
 
         // Create the data table
         var data = new google.visualization.DataTable();
-        console.log(response);
         data.addColumn('string', 'Name');
         data.addColumn('string', 'Type');
         data.addRows(response);
@@ -17,20 +16,34 @@ function drawChart() {
         document.getElementById('receivedType').style.height = '500px';
         document.getElementById('receivedType').style.width = '700px';
 
-        // Style the chart div
-        document.getElementById('receivedType2').style.height = '500px';
-        document.getElementById('receivedType2').style.width = '700px';
-
         //create and draw the table from DIV
         var tableChart = new google.visualization.Table(document.getElementById('receivedType'));
         tableChart.draw(data, {showRowNumber: true, width: '100%', height: '100%' });
 
-        //create and draw the pie chart from DIV
-        var pieChart = new google.visualization.PieChart(document.getElementById('receivedType2'));
-        pieChart.draw(data);
-
         // Create CSV
-        var csv = google.visualization.dataTableToCsv(data);
-        console.log(csv);
+        var dataToTable = google.visualization.arrayToDataTable(response, true);
+        console.log(dataToTable);
+        var csv = google.visualization.dataTableToCsv(dataToTable);
+
+        // Add ability to download CSV
+        document.getElementById("export").addEventListener("click", (e) =>{
+            e.stopPropagation();
+            e.preventDefault();
+            console.log("in download");
+            // Source: https://stackoverflow.com/questions/17564103/using-javascript-to-download-file-as-a-csv-file
+            var downloadLink = document.createElement("a");
+            var blob = new Blob(["\ufeff", csv]);
+            var url = URL.createObjectURL(blob);
+            downloadLink.href = url;
+            downloadLink.download = "data.csv";  //Name the file here
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        });
+
+        document.getElementById("export").removeEventListener('click', (e) =>{
+            console.log("in remove function");
+        });
+
     }, 'json');
 }
