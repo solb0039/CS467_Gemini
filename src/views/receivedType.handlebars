@@ -1,11 +1,26 @@
 <script type="text/javascript">
-google.charts.load("current", { packages: ["corechart"] });
-google.charts.setOnLoadCallback(drawChart);
+    google.charts.load("current", { packages: ["corechart"] });
+    google.charts.setOnLoadCallback(drawChart);
 </script>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/admin">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/users">Users</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/analytics">Analytics</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class='small-space'></div>
 <h1>Which Employees Received Which Type of Award</h1>
 <div class="small-space"></div>
-<div id="export">
-<button class="btn">Download as CSV</button></div>
+<button class="btn" id="export">Download as CSV</button>
 <div class='vertical-space'></div>
 <div id='receivedType'>
 </div>

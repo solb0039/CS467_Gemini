@@ -30,7 +30,25 @@ function drawChart() {
         pieChart.draw(data);
 
         // Create CSV
-        var csv = google.visualization.dataTableToCsv(data);
-        console.log(csv);
+        var dataToTable = google.visualization.arrayToDataTable(response, true);
+        console.log(dataToTable);
+        var csv = google.visualization.dataTableToCsv(dataToTable);
+
+        // Add ability to download CSV
+        document.getElementById("export").addEventListener("click", function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            console.log("in download");
+            // Source: https://stackoverflow.com/questions/17564103/using-javascript-to-download-file-as-a-csv-file
+            var downloadLink = document.createElement("a");
+            var blob = new Blob(["\ufeff", csv]);
+            var url = URL.createObjectURL(blob);
+            downloadLink.href = url;
+            downloadLink.download = "data.csv";  //Name the file here
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        });
     }, 'json');
 }

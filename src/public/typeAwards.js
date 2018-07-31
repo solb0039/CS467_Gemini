@@ -25,8 +25,26 @@ function drawChart() {
         var tableChart = new google.visualization.Table(document.getElementById('typeAwards'));
         tableChart.draw(data, {showRowNumber: true, width: '100%', height: '100%' });
 
-        // create and draw the pie chart from DIV
-        var pieChart = new google.visualization.PieChart(document.getElementById('typeAwards2'));
-        pieChart.draw(data);
+        // Create CSV
+        var dataToTable = google.visualization.arrayToDataTable(response, true);
+        console.log(dataToTable);
+        var csv = google.visualization.dataTableToCsv(dataToTable);
+
+        // Add ability to download CSV
+        document.getElementById("export").addEventListener("click", function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            console.log("in download");
+            // Source: https://stackoverflow.com/questions/17564103/using-javascript-to-download-file-as-a-csv-file
+            var downloadLink = document.createElement("a");
+            var blob = new Blob(["\ufeff", csv]);
+            var url = URL.createObjectURL(blob);
+            downloadLink.href = url;
+            downloadLink.download = "data.csv";  //Name the file here
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        });
     }, 'json');
 }

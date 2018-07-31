@@ -26,9 +26,10 @@ function drawChart() {
         var csv = google.visualization.dataTableToCsv(dataToTable);
 
         // Add ability to download CSV
-        document.getElementById("export").addEventListener("click", (e) =>{
+        document.getElementById("export").addEventListener("click", function(e) {
             e.stopPropagation();
             e.preventDefault();
+            e.stopImmediatePropagation();
             console.log("in download");
             // Source: https://stackoverflow.com/questions/17564103/using-javascript-to-download-file-as-a-csv-file
             var downloadLink = document.createElement("a");
@@ -40,10 +41,5 @@ function drawChart() {
             downloadLink.click();
             document.body.removeChild(downloadLink);
         });
-
-        document.getElementById("export").removeEventListener('click', (e) =>{
-            console.log("in remove function");
-        });
-
     }, 'json');
 }
