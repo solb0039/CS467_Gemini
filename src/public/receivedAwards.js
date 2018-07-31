@@ -30,7 +30,10 @@ function drawChart() {
         pieChart.draw(data);
 
         // Create CSV
-        var dataToTable = google.visualization.arrayToDataTable(response, true);
+        var csvTable = [];
+        csvTable.push(["Name", "Number of Awards"]);
+        csvTable = csvTable.concat(response);
+        var dataToTable = google.visualization.arrayToDataTable(csvTable, true);
         console.log(dataToTable);
         var csv = google.visualization.dataTableToCsv(dataToTable);
 

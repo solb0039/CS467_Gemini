@@ -21,7 +21,10 @@ function drawChart() {
         tableChart.draw(data, {showRowNumber: true, width: '100%', height: '100%' });
 
         // Create CSV
-        var dataToTable = google.visualization.arrayToDataTable(response, true);
+        var csvTable = [];
+        csvTable.push(["Name", "Type"]);
+        csvTable = csvTable.concat(response);
+        var dataToTable = google.visualization.arrayToDataTable(csvTable, true);
         console.log(dataToTable);
         var csv = google.visualization.dataTableToCsv(dataToTable);
 

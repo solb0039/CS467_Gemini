@@ -9,7 +9,7 @@ function drawChart() {
         // Create the data table
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Name');
-        data.addColumn('number', 'Has Created');
+        data.addColumn('number', 'Number Created');
         data.addRows(response);
 
         // Style the chart div
@@ -29,7 +29,10 @@ function drawChart() {
         pieChart.draw(data);
 
         // Create CSV
-        var dataToTable = google.visualization.arrayToDataTable(response, true);
+        var csvTable = [];
+        csvTable.push(["Name", "Number Created"]);
+        csvTable = csvTable.concat(response);
+        var dataToTable = google.visualization.arrayToDataTable(csvTable, true);
         console.log(dataToTable);
         var csv = google.visualization.dataTableToCsv(dataToTable);
 
