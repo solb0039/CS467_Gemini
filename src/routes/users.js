@@ -12,6 +12,8 @@ module.exports = function () {
                 res.end();
             }
             context.users  = results;
+            console.log("context");
+            console.log(context.users);
             complete();
         });
     }
@@ -35,6 +37,17 @@ module.exports = function () {
         var handlebars_file = 'users'
         context.jsscripts = ["deleteUsers.js", "updateUsers.js"];
         getUsers(res, mysql, context, ()=> {
+            /* Source: https://stackoverflow.com/questions/47845839/converting-blob-from-database-to-an-image-javascript
+            server.get("/api/id/:w", function(req, res) {
+                var data = getIcon(req.params.w);
+                var img = new Buffer(data, 'base64');
+            
+               res.writeHead(200, {
+                 'Content-Type': 'image/png',
+                 'Content-Length': img.length
+               });
+               res.end(img); 
+            });*/
             res.render(handlebars_file, context);
         });
     });
@@ -50,6 +63,17 @@ module.exports = function () {
         });
     });
 
+    // GET - display a user signature
+    router.get('/signature/:id', (req,res) => {
+        var context = {};
+        var mysql = req.app.get('mysql');
+        var handlebars_file = 'signature'
+        context.jsscripts = ["updateUsers.js"];
+        getUserID(res, mysql, context, req.params.id, ()=> {
+            res.render(handlebars_file, context);
+        });
+    });
+
     // POST - Add a new user
     router.post('/', (req, res) => {
         console.log(req.body)
@@ -57,7 +81,8 @@ module.exports = function () {
         var sql = "INSERT INTO users (first_name, last_name, username, password, date, signature, type) VALUES (?,?,?,?,CURDATE(),?,?)";
         var updated_signature = req.body.signature;
 
-        // convert pdf url to blob
+        // convert signature image to blob
+        // Source: https://stackoverflow.com/questions/30212813/express-return-binary-data-from-distant-webservice
 
         var inserts = [req.body.first_name, req.body.last_name, req.body.username, req.body.password, updated_signature, req.body.type];
         sql = mysql.pool.query(sql,inserts,(error, results, fields) => {
@@ -78,7 +103,7 @@ module.exports = function () {
         var sql = "UPDATE users SET first_name=?, last_name=?, username=?, password=?, signature=?, type=? WHERE user_id=?";
         var updated_signature = req.body.signature;
         
-        // convert pdf url to blob
+        // convert signature image to blob
 
         var inserts = [req.body.first_name, req.body.last_name, req.body.username, req.body.password, updated_signature, req.body.type, req.params.id];
         sql = mysql.pool.query(sql,inserts,(error, results, fields) => {
