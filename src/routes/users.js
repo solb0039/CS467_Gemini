@@ -1,4 +1,5 @@
 // Routes for users page
+// Sources for image display: https://stackoverflow.com/questions/8499633/how-to-display-base64-images-in-html
 
 module.exports = function () {
     var express = require('express');
@@ -12,7 +13,6 @@ module.exports = function () {
                 res.end();
             }
             context.users  = results;
-            console.log("context");
             console.log(context.users);
             complete();
         });
@@ -37,17 +37,6 @@ module.exports = function () {
         var handlebars_file = 'users'
         context.jsscripts = ["deleteUsers.js", "updateUsers.js"];
         getUsers(res, mysql, context, ()=> {
-            /* Source: https://stackoverflow.com/questions/47845839/converting-blob-from-database-to-an-image-javascript
-            server.get("/api/id/:w", function(req, res) {
-                var data = getIcon(req.params.w);
-                var img = new Buffer(data, 'base64');
-            
-               res.writeHead(200, {
-                 'Content-Type': 'image/png',
-                 'Content-Length': img.length
-               });
-               res.end(img); 
-            });*/
             res.render(handlebars_file, context);
         });
     });
