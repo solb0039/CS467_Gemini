@@ -70,10 +70,7 @@ module.exports = function () {
         var mysql = req.app.get('mysql');
         var sql = "INSERT INTO users (first_name, last_name, username, password, date, signature, type) VALUES (?,?,?,?,CURDATE(),?,?)";
         var updated_signature = req.body.signature;
-
-        // convert signature image to blob
-        // Source: https://stackoverflow.com/questions/30212813/express-return-binary-data-from-distant-webservice
-
+        
         var inserts = [req.body.first_name, req.body.last_name, req.body.username, req.body.password, updated_signature, req.body.type];
         sql = mysql.pool.query(sql,inserts,(error, results, fields) => {
             if(error){
@@ -92,8 +89,6 @@ module.exports = function () {
         var mysql = req.app.get('mysql');
         var sql = "UPDATE users SET first_name=?, last_name=?, username=?, password=?, signature=?, type=? WHERE user_id=?";
         var updated_signature = req.body.signature;
-        
-        // convert signature image to blob
 
         var inserts = [req.body.first_name, req.body.last_name, req.body.username, req.body.password, updated_signature, req.body.type, req.params.id];
         sql = mysql.pool.query(sql,inserts,(error, results, fields) => {
