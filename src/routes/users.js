@@ -1,5 +1,6 @@
 // Routes for users page
-// Sources for image display: https://stackoverflow.com/questions/8499633/how-to-display-base64-images-in-html
+// Sources for image display: https://stackoverflow.com/questions/8499633/how-to-display-base64-images-in-html,
+// https://stackoverflow.com/questions/22051573/how-to-hide-image-broken-icon-using-only-css-html-without-js
 
 module.exports = function () {
     var express = require('express');
