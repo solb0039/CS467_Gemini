@@ -1,10 +1,12 @@
 // Routes for users page
 // Sources for image display: https://stackoverflow.com/questions/8499633/how-to-display-base64-images-in-html,
 // https://stackoverflow.com/questions/22051573/how-to-hide-image-broken-icon-using-only-css-html-without-js
+// Sources for image encoding: https://stackoverflow.com/questions/20267939/nodejs-write-base64-image-file,
 
 module.exports = function () {
     var express = require('express');
     var router = express.Router();
+    var base64 = require('node-base64-image');
 
     // Select the user table to display  
     function getUsers(res, mysql, context, complete){
@@ -53,30 +55,32 @@ module.exports = function () {
         });
     });
 
-    // GET - display a user signature
-    router.get('/signature/:id', (req,res) => {
-        var context = {};
-        var mysql = req.app.get('mysql');
-        var handlebars_file = 'signature'
-        context.jsscripts = ["updateUsers.js"];
-        getUserID(res, mysql, context, req.params.id, ()=> {
-            res.render(handlebars_file, context);
-        });
-    });
-
     // POST - Add a new user
     router.post('/', (req, res) => {
         console.log(req.body)
         var mysql = req.app.get('mysql');
         var sql = "INSERT INTO users (first_name, last_name, username, password, date, signature, type) VALUES (?,?,?,?,CURDATE(),?,?)";
 
+        // Convert the signature to a base64 string
         var updated_signature = req.body.signature;
         console.log(updated_signature);
+
+        // Strip any meta information
+        var data = updated_signature.replace(/^data:image\/\w+;base64,/, '');
+        var fileName = "";
+        require("fs").writeFile(fileName, data, {encoding: 'base64'}, function(err){
+            if (err) {
+                console.log('err', err);
+            }
+            console.log('success');
+            console.log(fileName);
+        });
         
+        // Add the new user to the database
         var inserts = [req.body.first_name, req.body.last_name, req.body.username, req.body.password, updated_signature, req.body.type];
         sql = mysql.pool.query(sql,inserts,(error, results, fields) => {
             if(error){
-                console.log(JSON.stringify(error))
+                console.log(JSON.stringify(error));
                 res.write(JSON.stringify(error));
                 res.end();
             }else{

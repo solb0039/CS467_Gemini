@@ -11,7 +11,8 @@
     "express-handlebars": "^2.0.1",
     "express-session": "^1.11.3",
     "mysql": "^2.8.0",
-    "google-chart": "^0.0.1-security"
+    "google-chart": "^0.0.1-security",
+    "node-base64-image": "^1.0.5"
   },
   "engines": {
     "node": "8.x.x"
