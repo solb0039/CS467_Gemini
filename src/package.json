@@ -13,7 +13,7 @@
     "mysql": "^2.8.0",
     "google-chart": "^0.0.1-security",
     "node-base64-image": "^1.0.5",
-    "express-fileupload": "^0.4.0",
+    "express-fileupload": "^0.4.0"
   },
   "engines": {
     "node": "8.x.x"
