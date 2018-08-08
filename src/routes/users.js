@@ -1,89 +1,82 @@
 // Routes for users page
-// Sources for image display: https://stackoverflow.com/questions/8499633/how-to-display-base64-images-in-html,
+// Sources for signature display: https://stackoverflow.com/questions/8499633/how-to-display-base64-images-in-html,
 // https://stackoverflow.com/questions/22051573/how-to-hide-image-broken-icon-using-only-css-html-without-js
-// Sources for image encoding: https://stackoverflow.com/questions/20267939/nodejs-write-base64-image-file,
+// Sources for storing signature: https://stackoverflow.com/questions/1342506/why-is-form-enctype-multipart-form-data-required-when-uploading-a-file,
 
 module.exports = function () {
     var express = require('express');
     var router = express.Router();
     var base64 = require('node-base64-image');
+    const fileUpload = require('express-fileupload');
+    router.use(fileUpload());
 
     // Select the user table to display  
-    function getUsers(res, mysql, context, complete){
+    function getUsers(res, mysql, context, complete) {
         mysql.pool.query("SELECT * FROM users", (error, results, fields) => {
-            if(error){
+            if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.users  = results;
-            console.log(context.users);
+            context.users = results;
             complete();
         });
     }
 
     // Get a user by ID to modify
-    function getUserID(res, mysql, context, id, complete){
+    function getUserID(res, mysql, context, id, complete) {
         mysql.pool.query("SELECT * FROM users WHERE user_id = ?", id, (error, results, fields) => {
-            if(error){
+            if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.users  = results[0];
+            context.users = results[0];
             complete();
         });
     }
 
     // GET - display current users
-    router.get('/', (req,res) => {
+    router.get('/', (req, res) => {
         var context = {};
         var mysql = req.app.get('mysql');
         var handlebars_file = 'users'
         context.jsscripts = ["deleteUsers.js", "updateUsers.js"];
-        getUsers(res, mysql, context, ()=> {
+        getUsers(res, mysql, context, () => {
             res.render(handlebars_file, context);
         });
     });
 
-     // GET - display a user for the purpose of updating
-     router.get('/:id', (req,res) => {
+    // GET - display a user for the purpose of updating
+    router.get('/:id', (req, res) => {
         var context = {};
         var mysql = req.app.get('mysql');
         var handlebars_file = 'updateUsers'
         context.jsscripts = ["updateUsers.js"];
-        getUserID(res, mysql, context, req.params.id, ()=> {
+        getUserID(res, mysql, context, req.params.id, () => {
             res.render(handlebars_file, context);
         });
     });
 
     // POST - Add a new user
     router.post('/', (req, res) => {
-        console.log(req.body)
         var mysql = req.app.get('mysql');
         var sql = "INSERT INTO users (first_name, last_name, username, password, date, signature, type) VALUES (?,?,?,?,CURDATE(),?,?)";
+        var mySig = "";
 
-        // Convert the signature to a base64 string
-        var updated_signature = req.body.signature;
-        console.log(updated_signature);
-
-        // Strip any meta information
-        var data = updated_signature.replace(/^data:image\/\w+;base64,/, '');
-        var fileName = "";
-        require("fs").writeFile(fileName, data, {encoding: 'base64'}, function(err){
-            if (err) {
-                console.log('err', err);
+        // If there is a signature file
+        if(typeof req.files.signature != "undefined"){
+            if(req.files.signature.name != "undefined"){
+                mySig = req.files.signature.data.toString('base64');
             }
-            console.log('success');
-            console.log(fileName);
-        });
-        
+        }
+
         // Add the new user to the database
-        var inserts = [req.body.first_name, req.body.last_name, req.body.username, req.body.password, updated_signature, req.body.type];
-        sql = mysql.pool.query(sql,inserts,(error, results, fields) => {
-            if(error){
+        var inserts = [req.body.first_name, req.body.last_name, req.body.username, req.body.password, mySig, req.body.type];
+        sql = mysql.pool.query(sql, inserts, (error, results, fields) => {
+            if (error) {
                 console.log(JSON.stringify(error));
                 res.write(JSON.stringify(error));
                 res.end();
-            }else{
+            } else {
                 res.redirect('/users');
             }
         });
@@ -94,17 +87,17 @@ module.exports = function () {
         console.log(req.params.id);
         var mysql = req.app.get('mysql');
         var sql = "UPDATE users SET first_name=?, last_name=?, username=?, password=?, signature=?, type=? WHERE user_id=?";
+        var mySig = "";
 
-        var updated_signature = req.body.signature;
-        console.log(updated_signature);
-
-        var inserts = [req.body.first_name, req.body.last_name, req.body.username, req.body.password, updated_signature, req.body.type, req.params.id];
-        sql = mysql.pool.query(sql,inserts,(error, results, fields) => {
-            if(error){
+        console.log(req);
+        
+        var inserts = [req.body.first_name, req.body.last_name, req.body.username, req.body.password, mySig, req.body.type, req.params.id];
+        sql = mysql.pool.query(sql, inserts, (error, results, fields) => {
+            if (error) {
                 console.log(error);
                 res.write(JSON.stringify(error));
                 res.end();
-            }else{
+            } else {
                 res.redirect(303, '/users');
             }
         });
@@ -116,17 +109,17 @@ module.exports = function () {
         var mysql = req.app.get('mysql');
         var sql = "DELETE FROM users WHERE user_id = ?";
         var inserts = [req.params.id];
-		console.log(inserts);
+        console.log(inserts);
         sql = mysql.pool.query(sql, inserts, (error, results, fields) => {
-            if(error){
+            if (error) {
                 res.write(JSON.stringify(error));
                 res.status(400);
                 res.end();
-            }else{
+            } else {
                 res.status(202).end();
             }
         })
     })
 
-return router;
+    return router;
 }();

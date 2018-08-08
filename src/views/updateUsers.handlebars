@@ -16,7 +16,7 @@
 <div class='small-space'></div>
 <h1>Update User {{users.first_name}} {{users.last_name}}:</h1>
 <div class="small-space"></div>
-<form id="update-users" action="/users" method="put">
+<form id="update-users" action="/users" method="put" enctype="multipart/form-data">
 <div class="form-group">
     <label for="first_name">First name</label>
     <input type="text" class="form-control" id="first_name" name="first_name" value="{{users.first_name}}">
@@ -39,7 +39,7 @@
 </div>
 <div class="form-group">
     <label for="signature">Signature</label>
-    <input type="text" class="form-control" id="signature" name="signature">
+    <input type="file" class="form-control" id="signature" name="signature" accept="">
 </div>
 <button type="submit" class="btn btn-primary" onclick="updateUsers({{users.user_id}})">Submit</button>
 </form>

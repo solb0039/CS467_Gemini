@@ -18,7 +18,7 @@
 <h2>Add a New User</h2>
 <div class="small-space"></div>
 <div class="form-group">
-<form id="addUser" action="/users" method="post">
+<form id="addUser" action="/users" method="post" enctype="multipart/form-data">
     <label for="first_name">First name</label>
     <input type="text" class="form-control" id="first_name" name="first_name"></input>
 </div>
@@ -40,7 +40,7 @@
 </div>
 <div class="form-group">
     <label for="signature">Signature</label>
-    <input type="text" class="form-control" id="signature" name="signature"></input>
+    <input type="file" class="form-control" id="signature" name="signature" accept=""></input>
 </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

@@ -17,7 +17,7 @@ CREATE TABLE `users`(
     `password` varchar(255) NOT NULL,
     `time` time NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `date` date NOT NULL,
-    `signature` blob,
+    `signature` LONGBLOB,
     `type` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 --
