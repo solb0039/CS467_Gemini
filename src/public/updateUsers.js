@@ -1,4 +1,5 @@
 function updateUsers(id){
+    // Source: CS 290 database work
     $.ajax({
         url: '/users/' + id,
         type: 'PUT',
