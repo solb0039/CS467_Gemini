@@ -2,6 +2,7 @@
 // Sources for signature display: https://stackoverflow.com/questions/8499633/how-to-display-base64-images-in-html,
 // https://stackoverflow.com/questions/22051573/how-to-hide-image-broken-icon-using-only-css-html-without-js
 // Sources for storing signature: https://stackoverflow.com/questions/1342506/why-is-form-enctype-multipart-form-data-required-when-uploading-a-file,
+// https://stackoverflow.com/questions/10899384/uploading-both-data-and-files-in-one-form-using-ajax/10899796#10899796
 
 module.exports = function () {
     var express = require('express');
