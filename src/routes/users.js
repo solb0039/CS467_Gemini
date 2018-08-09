@@ -39,7 +39,7 @@ module.exports = function () {
         var context = {};
         var mysql = req.app.get('mysql');
         var handlebars_file = 'users'
-        context.jsscripts = ["deleteUsers.js", "updateUsers.js"];
+        context.jsscripts = ["deleteUsers.js", "updateUsers.js", "updateSignature.js"];
         getUsers(res, mysql, context, () => {
             res.render(handlebars_file, context);
         });
@@ -63,8 +63,8 @@ module.exports = function () {
         var mySig = "";
 
         // If there is a signature file
-        if(typeof req.files.signature != "undefined"){
-            if(req.files.signature.name != "undefined"){
+        if (typeof req.files.signature != "undefined") {
+            if (req.files.signature.name != "undefined") {
                 mySig = req.files.signature.data.toString('base64');
             }
         }
@@ -82,16 +82,54 @@ module.exports = function () {
         });
     });
 
-    // PUT - Modify the specified user
+    // PUT - Modify the specified user - all but signature
     router.put('/:id', (req, res) => {
         console.log(req.params.id);
         var mysql = req.app.get('mysql');
-        var sql = "UPDATE users SET first_name=?, last_name=?, username=?, password=?, signature=?, type=? WHERE user_id=?";
+        var sql = "UPDATE users SET first_name=?, last_name=?, username=?, password=?, type=? WHERE user_id=?";
         var mySig = "";
 
         console.log(req);
-        
-        var inserts = [req.body.first_name, req.body.last_name, req.body.username, req.body.password, mySig, req.body.type, req.params.id];
+
+        var inserts = [req.body.first_name, req.body.last_name, req.body.username, req.body.password, req.body.type, req.params.id];
+        sql = mysql.pool.query(sql, inserts, (error, results, fields) => {
+            if (error) {
+                console.log(error);
+                res.write(JSON.stringify(error));
+                res.end();
+            } else {
+                res.redirect(303, '/users');
+            }
+        });
+    });
+
+    // GET - display a user signature for the purpose of updating
+    router.get('/signature/:id', (req, res) => {
+        var context = {};
+        var mysql = req.app.get('mysql');
+        var handlebars_file = 'updateSignature'
+        context.jsscripts = ["updateSignature.js"];
+        getUserID(res, mysql, context, req.params.id, () => {
+            res.render(handlebars_file, context);
+        });
+    });
+
+    // PUT - Modify the signature
+    router.put('/signature/:id', (req, res) => {
+        console.log(req.params.id);
+        var mysql = req.app.get('mysql');
+        var sql = "UPDATE users SET signature=? WHERE user_id=?";
+        var mySig = "";
+
+        // If there is a signature file
+        if (typeof req.files.signature != "undefined") {
+            if (req.files.signature.name != "undefined") {
+                mySig = req.files.signature.data.toString('base64');
+            }
+        }
+        console.log(mySig);
+
+        var inserts = [mySig, req.params.id];
         sql = mysql.pool.query(sql, inserts, (error, results, fields) => {
             if (error) {
                 console.log(error);
