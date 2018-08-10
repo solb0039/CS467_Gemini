@@ -1,6 +1,16 @@
 .vertical-space{
     padding-top: 45px;
 }
+
 .small-space{
     padding-top:20px;
+}
+
+.horizontal-space{
+    padding-left: 40px;
+    display: inline-block;
+}
+
+.size{
+    width: 180px;
 }
