@@ -32,7 +32,13 @@
 </div>
 <div class="form-group">
     <label for="type">Award Type</label>
-    <input type="text" class="form-control" id="type" name="type"></input>
+    <!-- <input type="text" class="form-control" id="type" name="type"></input> -->
+    <select name="type">
+	<option value="Employee of the Month">Employee of the Week</option>
+	<option value="Employee of the Week">Emplpoyee of the Month</option>
+	<option value="Employee of the Week">Emplpoyee of the Quarter</option>
+	<option value="Employee of the Week">Emplpoyee of the Year</option>
+   </select>
 </div>
 <div class="form-group">
     <label for="date">Date - YYYY-MM-DD</label>
@@ -50,6 +56,7 @@
     <table id="awardsTable" class="table">
         <thead>
             <th></th>
+	    <th></th>
             <th>Award ID</th>
             <th>First Name</th>
             <th>Last Name</th>
@@ -65,6 +72,11 @@
                 <td>
                     <button onclick="deleteAwards({{award_id}})">Delete</button>
                 </td>
+		<td>
+		    <button>			
+			<a href="/awards/resendAward/{{award_id}}/">Resend</a>		
+		    </button>
+		</td>
                 <td>{{award_id}}</td>
                 <td>{{first_name}}</td>
                 <td>{{last_name}}</td>
