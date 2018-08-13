@@ -8,12 +8,15 @@
   "dependencies": {
     "body-parser": "^1.13.3",
     "express": "^4.13.2",
+    "express-fileupload": "^0.4.0",
     "express-handlebars": "^2.0.1",
     "express-session": "^1.11.3",
-    "mysql": "^2.8.0",
+    "fs": "0.0.1-security",
     "google-chart": "^0.0.1-security",
+    "mysql": "^2.8.0",
     "node-base64-image": "^1.0.5",
-    "express-fileupload": "^0.4.0"
+    "node-latex": "^2.4.4",
+    "nodemailer": "^4.6.7"
   },
   "engines": {
     "node": "8.x.x"
