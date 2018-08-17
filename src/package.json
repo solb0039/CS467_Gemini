@@ -16,7 +16,8 @@
     "mysql": "^2.8.0",
     "node-base64-image": "^1.0.5",
     "node-latex": "^2.4.4",
-    "nodemailer": "^4.6.7"
+    "nodemailer": "^4.6.7",
+    "nocache": "^2.0.0"
   },
   "engines": {
     "node": "8.x.x"

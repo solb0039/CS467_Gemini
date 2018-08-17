@@ -42,6 +42,7 @@ module.exports = function () {
         var handlebars_file = 'users'
         context.jsscripts = ["deleteUsers.js", "updateUsers.js", "updateSignature.js"];
         getUsers(res, mysql, context, () => {
+            res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
             res.render(handlebars_file, context);
         });
     });
@@ -128,15 +129,19 @@ module.exports = function () {
                 mySig = req.files.signature.data.toString('base64');
             }
         }
+        console.log("my sig is");
         console.log(mySig);
 
         var inserts = [mySig, req.params.id];
         sql = mysql.pool.query(sql, inserts, (error, results, fields) => {
             if (error) {
                 console.log(error);
+                console.log("error");
                 res.write(JSON.stringify(error));
                 res.end();
             } else {
+                console.log("in redirect");
+                res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
                 res.redirect(303, '/users');
             }
         });

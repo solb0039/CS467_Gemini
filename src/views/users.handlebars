@@ -1,29 +1,42 @@
+<script type="text/javascript">
+$(document).ready(function(){
+  $('td').each(function(){
+
+      var date = new Date;
+      // add the current unix timestamp in microseconds to the the image src as a query string
+      this.src = this.src + '?' + date.getTime();
+   });
+
+});
+</script>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="/">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/admin">Admin Portal</a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="/users">Users <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/analytics">Analytics</a>
-      </li>
-    </ul>
-  </div>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin">Admin Portal</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/users">Users
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/analytics">Analytics</a>
+            </li>
+        </ul>
+    </div>
 </nav>
 <div class='small-space'></div>
 <h1>Administrator Portal - Users</h1>
 <h2>Add a New User</h2>
 <div class="small-space"></div>
 <div class="form-group">
-<form id="addUser" action="/users" method="post" enctype="multipart/form-data">
-    <label for="first_name">First name</label>
-    <input type="text" class="form-control" id="first_name" name="first_name"></input>
+    <form id="addUser" action="/users" method="post" enctype="multipart/form-data">
+        <label for="first_name">First name</label>
+        <input type="text" class="form-control" id="first_name" name="first_name"></input>
 </div>
 <div class="form-group">
     <label for="last_name">Last name</label>
@@ -39,17 +52,17 @@
 </div>
 <div class="form-group">
     <label for="type">Type</label>
-    <!-- <input type="text" class="form-control" id="type" name="type"></input> -->
-    <select name="type">
-	<option value="Regular">regular</option>
-	<option value="Admin">admin</option> 
+    <!--<input type="text" class="form-control" id="type" name="type"></input>-->
+    <select id="type" name="type">
+        <option value="regular">regular</option>
+        <option value="admin">admin</option>
     </select>
 </div>
 <div class="form-group">
-    <label for="signature">Signature</label>
+    <label for="signature">Signature (recommended size less than 2KB)</label>
     <input type="file" class="form-control" id="signature" name="signature" accept=""></input>
 </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+<button type="submit" class="btn btn-primary">Submit</button>
 </form>
 <div class='vertical-space'></div>
 <h2>Current Users</h2>
@@ -68,7 +81,7 @@
             <th>Date Created</th>
             <th>Type</th>
             <th>Signature</th>
-            
+
         </thead>
         <tbody>
             {{#each users}}
@@ -94,7 +107,11 @@
                 <td>{{time}}</td>
                 <td>{{date}}</td>
                 <td>{{type}}</td>
-                <td><object data="data:image/jpeg;base64, {{signature}}"><img src="Error.src" onerror="this.style.display='none'"/></object></td>
+                <td>
+                    <object data="data:image/jpeg;base64, {{signature}}">
+                        <!--<img src="Error.src" onerror="this.style.display='none'" />-->
+                    </object>
+                </td>
             </tr>
             {{/each}}
         </tbody>

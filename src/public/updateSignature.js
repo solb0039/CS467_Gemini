@@ -5,11 +5,11 @@ function updateSignature(id){
         url: '/users/signature/' + id,
         type: 'PUT',
         data: formData,
-        success: function(result){
-            window.location.replace("/users");
-        },  
         cache: false,
         contentType: false,
-        processData: false
+        processData: false,
+        success: function(result){
+            window.location.replace("/users");
+        }
     })
 };

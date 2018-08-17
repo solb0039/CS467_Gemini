@@ -7,6 +7,11 @@ var bodyParser = require('body-parser');
 var app = express();
 var fileUpload = require('express-fileupload');
 var handlebars = require('express-handlebars').create({ defaultLayout: 'main' });
+var nocache = require('nocache');
+
+app.use(nocache());
+app.set('etag', false);
+app.disable('view cache');
 
 app.engine('handlebars', handlebars.engine);
 app.use('/static', express.static('public'));
