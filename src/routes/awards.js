@@ -15,7 +15,22 @@ module.exports = function () {
                 res.end();
             }
 	    context.users = results;
-            complete();
+
+	    // Query users database to get active user ids for rendering in the awards view
+	    mysql.pool.query("SELECT * FROM users", (error, user_results, fields) =>{
+	    	if (error) {
+			res.write(JSON.stringify(error));
+			res.end();
+		}
+		// Create new array of user ids and attach to context
+		var all_user_ids = {};
+		var length = user_results.length;
+		for (var i = 0; i < length; i++){
+			all_user_ids[i] = user_results[i].user_id;
+		}
+		context.users.u_ids = all_user_ids;            
+		complete();
+	    });
         });
     }
 
@@ -26,7 +41,7 @@ module.exports = function () {
         var handlebars_file = 'awards'
         context.jsscripts = ["deleteAwards.js"];
         getAwards(res, mysql, context, () => {
-              console.log(res)
+              //console.log(res)
 	      res.render(handlebars_file, context);
         });
     });

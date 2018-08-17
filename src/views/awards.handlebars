@@ -48,8 +48,8 @@
     <label for="account">User Account Number</label>
     <!-- <input type="text" class="form-control" id="user_id" name="user_id" accept=""></input> -->
     <select name="user_id" id="user_id">
-	{{#each users}}
-		<option>{{user_id}}</option>
+	{{#each users.u_ids}}
+		<option>{{this}}</option>
 	{{/each}}
     </select>
 </div>
