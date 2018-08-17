@@ -26,7 +26,8 @@ module.exports = function () {
         var handlebars_file = 'awards'
         context.jsscripts = ["deleteAwards.js"];
         getAwards(res, mysql, context, () => {
-            res.render(handlebars_file, context);
+              console.log(res)
+	      res.render(handlebars_file, context);
         });
     });
 
@@ -69,7 +70,6 @@ module.exports = function () {
                  	res.end();
 		}
         	context.user = results[0];
-		console.log('****the stuff is ', context.user);
 
 		//Populate csv file with award information
 		data += awardInfo.first_name + ", " + awardInfo.last_name + ", " + context.user.first_name + ", " + context.user.last_name + ", " + awardInfo.type +"\n";		
@@ -88,7 +88,7 @@ module.exports = function () {
 				console.log("error writing image");
 			}
 			else{
-				console.log("no error");
+				console.log("Successfully converted signature image");
 			}
 		});		
 
@@ -98,6 +98,7 @@ module.exports = function () {
  		if (error) {
                		res.write(JSON.stringify(error));
                  	res.end();
+			res.redirect('/awards');
 		}
         	award_ID = results[0].award_id;
 		
@@ -111,6 +112,7 @@ module.exports = function () {
    } 
 
     // Function that reads populated inputData.csv file with LaTeX file AwardCert.tex to generate PDF certificate
+    // Code adopted from node-latex documentation
     function writePDF(fs, award_ID, awardInfo){
         filename =  require('path').resolve(__dirname, '../awardCert.tex');
         
@@ -158,8 +160,7 @@ module.exports = function () {
                 from: '"Team Gemini" <CS467.Gemini@gmail.com>', // sender address
                 to: awardInfo.email, // list of receivers
                 subject: "Award Certificate from " +  awardInfo.AwName, // Subject line
-                text: 'Congrats, ' +  awardInfo.first_name, // plain text body
-                html: '<b>Congrats, you have received an award certificate</b>', // html body
+                text: 'Congrats, ' +  awardInfo.first_name + ', you have received an award for being the '+ awardInfo.type, // plain text body
                 attachments: [
                 {   // file on disk as an attachment
                         filename: output_filename,
@@ -168,13 +169,14 @@ module.exports = function () {
                 ]
         };
 
-        // send mail with defined transport object
+        // Send mail with defined transport object
         transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
-               	removeCertificate(output_filename);
+			console.log(error);
+               		removeCertificate(output_filename);
 			return console.log(error);
 		}
-                console.log('Message sent: %s', info.messageId);
+                console.log('Message sent: %s response was %s', info.messageId, info.response);
                 
 		removeCertificate(output_filename);	
 		});
@@ -184,7 +186,7 @@ module.exports = function () {
     // RESEND- Resend existing award
     router.get('/resendAward/:id', (req, res) => {
 	console.log('in resend');
-	console.log('parmas is ', [req.params.id]);
+	//console.log('parmas is ', [req.params.id]);
 
 	var mysql = req.app.get('mysql');
 	mysql.pool.query("SELECT * FROM awards WHERE award_id = ?", [req.params.id], (error, results) => {
