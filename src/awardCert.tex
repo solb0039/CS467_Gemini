@@ -8,7 +8,7 @@
 \usepackage{multirow} %for table
 
 \usepackage{graphicx}	
-\graphicspath{{src/}}
+\graphicspath{{/Documents/GitHub/467/CS467_Gemini/src/}}
 								
 \usepackage{color}					
 \usepackage{calligra}
@@ -26,8 +26,7 @@
 \usepackage{pagecolor,lipsum}
 \definecolor{shadecolor}{RGB}{220,220,205}
 
-
-\DTLloaddb{awardData}{src/inputData.csv}
+\DTLloaddb{awardData}{/Documents/GitHub/467/CS467_Gemini/src/inputData.csv}
 
 \begin{document}
 
@@ -40,7 +39,7 @@
 	
 %Color and border%
 \pagecolor{shadecolor}
-\begin{overpic}[abs,unit=1mm,scale=.285]{src/Border.png}
+\begin{overpic}[abs,unit=1mm,scale=.285]{/Documents/GitHub/467/CS467_Gemini/src/Border}
 
 
 %Title%
@@ -54,10 +53,10 @@
 \put(70,80){ \begin{normalsize}and hardwork to your work and the company.\end{normalsize}}
 
 %Seal Image%
-\put(10,20){\color{shadecolor}\frame{\includegraphics[scale=0.5]{src/seal.png}}}
+\put(10,20){\color{shadecolor}\frame{\includegraphics[scale=0.5]{seal}}}
 
 %Signature Image%
-\put(145,50){\makebox(0,0){{\color{shadecolor}\frame{\includegraphics[scale=0.6]{src/Signature.png}}}}}
+\put(145,50){\makebox(0,0){{\color{shadecolor}\frame{\includegraphics[scale=0.6]{Signature}}}}}
 
 %Awarded By%
 \put(120,60){\begin{large}Awarded by \end{large}}
