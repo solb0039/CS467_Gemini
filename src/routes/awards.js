@@ -14,10 +14,11 @@ module.exports = function () {
                 res.write(JSON.stringify(error));
                 res.end();
             }
-	    context.users = results;
+        context.users = results;
+        var user_type = "regular";
 
 	    // Query users database to get active user ids for rendering in the awards view
-	    mysql.pool.query("SELECT * FROM users", (error, user_results, fields) =>{
+	    mysql.pool.query("SELECT * FROM users WHERE users.type=?", user_type, (error, user_results, fields) =>{
 	    	if (error) {
 			res.write(JSON.stringify(error));
 			res.end();
