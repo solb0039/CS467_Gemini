@@ -8,7 +8,7 @@
 \usepackage{multirow} %for table
 
 \usepackage{graphicx}	
-\graphicspath{{/src/}}
+\graphicspath{{src/}}
 								
 \usepackage{color}					
 \usepackage{calligra}
@@ -27,7 +27,7 @@
 \definecolor{shadecolor}{RGB}{220,220,205}
 
 
-\DTLloaddb{awardData}{/src/inputData.csv}
+\DTLloaddb{awardData}{src/inputData.csv}
 
 \begin{document}
 
@@ -40,7 +40,7 @@
 	
 %Color and border%
 \pagecolor{shadecolor}
-\begin{overpic}[abs,unit=1mm,scale=.285]{/src/Border}
+\begin{overpic}[abs,unit=1mm,scale=.285]{src/Border.png}
 
 
 %Title%
@@ -54,10 +54,10 @@
 \put(70,80){ \begin{normalsize}and hardwork to your work and the company.\end{normalsize}}
 
 %Seal Image%
-\put(10,20){\color{shadecolor}\frame{\includegraphics[scale=0.5]{seal}}}
+\put(10,20){\color{shadecolor}\frame{\includegraphics[scale=0.5]{src/seal.png}}}
 
 %Signature Image%
-\put(145,50){\makebox(0,0){{\color{shadecolor}\frame{\includegraphics[scale=0.6]{Signature}}}}}
+\put(145,50){\makebox(0,0){{\color{shadecolor}\frame{\includegraphics[scale=0.6]{src/Signature.png}}}}}
 
 %Awarded By%
 \put(120,60){\begin{large}Awarded by \end{large}}
